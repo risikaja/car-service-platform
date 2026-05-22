@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
             [name, email, hashedPassword, 'customer', 10],
             (err, result) => {
 
-                if(err){
+                if (err) {
                     res.status(500).send(err);
                 } else {
 
@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
             }
         );
 
-    } catch(error){
+    } catch (error) {
 
         res.status(500).json(error);
 
@@ -70,11 +70,11 @@ router.post('/login', (req, res) => {
 
     db.query(sql, [email], async (err, result) => {
 
-        if(err){
+        if (err) {
             return res.status(500).send(err);
         }
 
-        if(result.length === 0){
+        if (result.length === 0) {
 
             return res.status(401).json({
                 message: 'User not found'
@@ -89,7 +89,7 @@ router.post('/login', (req, res) => {
             user.password
         );
 
-        if(!validPassword){
+        if (!validPassword) {
 
             return res.status(401).json({
                 message: 'Invalid password'
@@ -116,9 +116,10 @@ router.post('/login', (req, res) => {
 
             token,
             user: {
-                id: user.user_id,
+                user_id: user.user_id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
                 discount: user.discount
             }
 

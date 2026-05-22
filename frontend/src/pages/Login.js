@@ -33,9 +33,17 @@ function Login() {
 
             alert('Login successful');
 
-            window.location.href = '/';
+            if (response.data.user.role === 'admin') {
 
-        } catch(error){
+                window.location.href = '/admin';
+
+            } else {
+
+                window.location.href = '/';
+
+            }
+
+        } catch (error) {
 
             console.log(error);
 
