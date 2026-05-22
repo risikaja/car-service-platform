@@ -3,7 +3,13 @@ import React, {
     useState
 } from 'react';
 
+import {
+    Link
+} from 'react-router-dom';
+
 import axios from 'axios';
+
+import AdminOrders from './AdminOrders';
 
 
 function AdminDashboard() {
@@ -129,6 +135,15 @@ function AdminDashboard() {
 
             </h2>
 
+            <Link
+                to="/"
+                className="auth-link"
+            >
+
+                Back to Home
+
+            </Link>
+
 
             <div className="admin-form">
 
@@ -233,6 +248,9 @@ function AdminDashboard() {
                 }
 
             </div>
+
+
+            <AdminOrders />
 
         </div>
 

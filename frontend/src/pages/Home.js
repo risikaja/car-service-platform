@@ -101,7 +101,7 @@ function Home() {
                         )
                     }
 
-                
+
 
                 </nav>
 
@@ -122,8 +122,24 @@ function Home() {
                         orders and delivery costs.
                     </p>
 
-                    <button>
+                    <button
+
+                        onClick={() =>
+
+                            document
+                                .getElementById('parts')
+                                .scrollIntoView({
+
+                                    behavior: 'smooth'
+
+                                })
+
+                        }
+
+                    >
+
                         Explore Parts
+
                     </button>
 
                 </div>

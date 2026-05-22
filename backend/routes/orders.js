@@ -176,4 +176,51 @@ router.get('/', (req, res) => {
 
 });
 
+router.put('/:id', (req, res) => {
+
+    const id = req.params.id;
+
+    const { status } = req.body;
+
+
+    const sql = `
+
+        UPDATE Orders
+        SET status = ?
+        WHERE order_id = ?
+
+    `;
+
+
+    db.query(
+
+        sql,
+
+        [status, id],
+
+        (err, result) => {
+
+            if(err){
+
+                console.log(err);
+
+                return res
+                    .status(500)
+                    .send(err);
+
+            }
+
+            res.json({
+
+                message:
+                    'Order updated successfully'
+
+            });
+
+        }
+
+    );
+
+});
+
 module.exports = router;

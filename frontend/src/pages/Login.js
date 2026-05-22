@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+    Link
+} from 'react-router-dom';
 
 function Login() {
 
@@ -74,6 +77,15 @@ function Login() {
             <button onClick={loginUser}>
                 Login
             </button>
+
+            <Link
+                to="/"
+                className="auth-link"
+            >
+
+                Back to Home
+
+            </Link>
 
         </div>
 
