@@ -1,50 +1,177 @@
 const express = require('express');
+
 const router = express.Router();
 
 const db = require('../db');
 
-router.get('/', (req, res) => {
 
-    db.query('SELECT * FROM Orders', (err, result) => {
-
-        if(err){
-            res.status(500).send(err);
-        } else {
-            res.json(result);
-        }
-
-    });
-
-});
+// CREATE ORDER
 
 router.post('/', (req, res) => {
 
     const {
+
         user_id,
         total_price,
         shipping_cost,
-        status
+        status,
+        items
+
     } = req.body;
 
-    const sql = `
-        INSERT INTO Orders(user_id,total_price,shipping_cost,status)
+
+    const orderSql = `
+
+        INSERT INTO Orders
+        (user_id,total_price,shipping_cost,status)
+
         VALUES(?,?,?,?)
+
     `;
 
+
     db.query(
-        sql,
-        [user_id, total_price, shipping_cost, status],
+
+        orderSql,
+
+        [
+
+            user_id,
+            total_price,
+            shipping_cost,
+            status
+
+        ],
+
         (err, result) => {
 
-            if(err){
-                res.status(500).send(err);
-            } else {
-                res.json({
-                    message: 'Order created successfully'
+            if (err) {
+
+                console.log(err);
+
+                return res
+                    .status(500)
+                    .send(err);
+
+            }
+
+
+            const orderId =
+                result.insertId;
+
+
+            // NO ITEMS
+
+            if (items.length === 0) {
+
+                return res.json({
+
+                    message:
+                        'Order created successfully'
+
                 });
+
+            }
+
+
+            let completedQueries = 0;
+
+
+            items.forEach((item) => {
+
+                const itemSql = `
+
+                    INSERT INTO order_items
+                    (order_id,part_id,quantity)
+
+                    VALUES(?,?,?)
+
+                `;
+
+
+                db.query(
+
+                    itemSql,
+
+                    [
+
+                        orderId,
+                        item.part_id,
+                        item.quantity
+
+                    ],
+
+                    (itemErr) => {
+
+                        if (itemErr) {
+
+                            console.log(itemErr);
+
+                            console.log(item);
+
+                            return res
+                                .status(500)
+                                .send(itemErr);
+
+                        }
+
+
+                        completedQueries++;
+
+
+                        // ALL INSERTS FINISHED
+
+                        if (
+
+                            completedQueries ===
+                            items.length
+
+                        ) {
+
+                            res.json({
+
+                                message:
+                                    'Order created successfully'
+
+                            });
+
+                        }
+
+                    }
+
+                );
+
+            });
+
+        }
+
+    );
+
+});
+
+
+// GET ORDERS
+
+router.get('/', (req, res) => {
+
+    db.query(
+
+        'SELECT * FROM Orders',
+
+        (err, result) => {
+
+            if (err) {
+
+                res.status(500).send(err);
+
+            } else {
+
+                res.json(result);
+
             }
 
         }
+
     );
 
 });

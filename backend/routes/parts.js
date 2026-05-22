@@ -37,6 +37,26 @@ router.get('/:id', (req, res) => {
 
 });
 
+router.get('/:id', (req, res) => {
+
+    const sql = 'SELECT * FROM Parts WHERE part_id = ?';
+
+    db.query(
+        sql,
+        [req.params.id],
+        (err, result) => {
+
+            if(err){
+                res.status(500).send(err);
+            } else {
+                res.json(result);
+            }
+
+        }
+    );
+
+});
+
 router.post('/', (req, res) => {
 
     const { name, brand, model, price, stock } = req.body;
