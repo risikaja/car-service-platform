@@ -56,7 +56,7 @@ function Home() {
 
             <header className="navbar">
 
-                <h1>Car Service Platform</h1>
+                <h1>CarService Hub</h1>
 
                 <nav>
 
@@ -266,7 +266,7 @@ function Home() {
             >
 
                 <p>
-                    © 2026 Car Service Platform
+                    © 2026 CarService Hub
                 </p>
 
             </footer>
